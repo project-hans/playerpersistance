@@ -10,8 +10,14 @@ name: Build and Push Lobby Image
 on:
   push:
     branches: [ "main" ]
+    paths:
+      - 'src/**' # Trigger only if something in /src/* changes
   pull_request:
     branches: [ "main" ]
+    paths:
+      - 'src/**' # Trigger only if something in /src/* changes
+  release:
+    types: [published] # Trigger when a release is published
   workflow_dispatch:
 
 jobs:
@@ -54,24 +60,28 @@ jobs:
       - name: Publish JAR Artifact
         uses: actions/upload-artifact@v4
         with:
-          name: playerpersistence
+          name: playerpersistance
           path: build/libs/*.jar
 
-      # An optional step to also upload the `.jar` to the GitHub release assets
+  release:
+    needs: build
+    if: github.event_name == 'release' && github.event.action == 'published'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
       - name: Upload to release
         uses: JasonEtco/upload-to-release@master
         with:
-          # Make sure that this matches the file name of your .jar
-          args: target/PlayerPersistence-${{ github.event.release.tag_name }}.jar application/java-archive
+          args: build/libs/PlayerPersistance-${{ github.event.release.tag_name }}.jar application/java-archive
         env:
           GITHUB_TOKEN: '${{ secrets.GITHUB_TOKEN }}'
-
-      # Upload the .jar to Modrinth
       - name: Upload to Modrinth
         uses: cloudnode-pro/modrinth-publish@1.0.0
         with:
-          token: '${{ secrets.MODRINTH_TOKEN }}' # You need to create this secret in your repository settings
-          project: AFthCZHM # Replace with your project id/slug
-          file: 'target/YourPlugin-${{ github.event.release.tag_name }}.jar' # Make sure that this matches the file name of your .jar
-          changelog: '${{ github.event.release.body }}' # Copies the version changelog from the GitHub release notes
-          loaders: 'paper, spigot' # A list of your supported loaders
+          token: '${{ secrets.MODRINTH_TOKEN }}'
+          project: AFthCZHM
+          file: 'build/libs/PlayerPersistance-${{ github.event.release.tag_name }}.jar'
+          changelog: '${{ github.event.release.body }}'
+          loaders: 'fabric, quilt'
