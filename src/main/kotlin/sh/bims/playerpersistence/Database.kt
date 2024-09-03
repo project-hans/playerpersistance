@@ -1,4 +1,4 @@
-package sh.bims.playerpersistance
+package sh.bims.playerpersistence
 
 import java.sql.Connection
 import java.sql.DriverManager

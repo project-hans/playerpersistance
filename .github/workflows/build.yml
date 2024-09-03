@@ -54,7 +54,7 @@ jobs:
       - name: Publish JAR Artifact
         uses: actions/upload-artifact@v4
         with:
-          name: playerpersistance
+          name: playerpersistence
           path: build/libs/*.jar
 
       # An optional step to also upload the `.jar` to the GitHub release assets
@@ -62,7 +62,7 @@ jobs:
         uses: JasonEtco/upload-to-release@master
         with:
           # Make sure that this matches the file name of your .jar
-          args: target/PlayerPersistance-${{ github.event.release.tag_name }}.jar application/java-archive
+          args: target/PlayerPersistence-${{ github.event.release.tag_name }}.jar application/java-archive
         env:
           GITHUB_TOKEN: '${{ secrets.GITHUB_TOKEN }}'
 

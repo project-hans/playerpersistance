@@ -27,7 +27,7 @@ loom {
     splitEnvironmentSourceSets()
 
     mods {
-        register("playerpersistance") {
+        register("playerpersistence") {
             sourceSet("main")
         }
     }

@@ -1,4 +1,4 @@
-package sh.bims.playerpersistance
+package sh.bims.playerpersistence
 import com.google.gson.JsonArray
 import com.google.gson.JsonObject
 import com.google.gson.JsonParser
@@ -11,7 +11,7 @@ import net.minecraft.world.TeleportTarget
 import java.sql.PreparedStatement
 import java.util.*
 
-class PlayerPersistance : ModInitializer {
+class PlayerPersistence : ModInitializer {
 
     override fun onInitialize() {
         // Empty as this is meant as a library with no own functionality

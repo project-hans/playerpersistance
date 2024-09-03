@@ -1,8 +1,8 @@
 {
   "schemaVersion": 1,
-  "id": "playerpersistance",
+  "id": "playerpersistence",
   "version": "${version}",
-  "name": "PlayerPersistance",
+  "name": "PlayerPersistence",
   "description": "",
   "authors": [],
   "contact": {},
@@ -10,7 +10,7 @@
   "environment": "*",
   "entrypoints": {
     "main": [
-      "sh.bims.playerpersistance.PlayerPersistance"
+      "sh.bims.playerpersistence.PlayerPersistence"
     ]
   },
   "depends": {
