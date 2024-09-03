@@ -42,7 +42,7 @@ jobs:
           gradle-version: 8.8
 
       - name: Cache Gradle wrapper
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: |
             ~/.gradle/wrapper/
