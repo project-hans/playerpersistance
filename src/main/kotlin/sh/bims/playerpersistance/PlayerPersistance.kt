@@ -14,7 +14,40 @@ import java.util.*
 class PlayerPersistance : ModInitializer {
 
     override fun onInitialize() {
-        // Empty as this is meant as a library with no own functionality
+            val node = Database.SERVER_NODE
+            val query = """
+            CREATE TABLE IF NOT EXISTS player_inventories (
+                uuid UUID PRIMARY KEY,
+                inventory_data TEXT NOT NULL,
+                last_updated TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+            );
+
+            CREATE TABLE IF NOT EXISTS player_enderchests (
+                uuid UUID PRIMARY KEY,
+                chest_data TEXT NOT NULL,
+                last_updated TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+            );
+
+            DO $$ BEGIN
+                IF NOT EXISTS (SELECT 1 FROM pg_type WHERE typname = 'vector3') THEN
+                    CREATE TYPE vector3 AS (
+                        x FLOAT8,
+                        y FLOAT8,
+                        z FLOAT8
+                    );
+                END IF;
+            END $$;
+
+            CREATE TABLE IF NOT EXISTS player_locations_$node (
+                uuid UUID PRIMARY KEY,
+                dimension TEXT NOT NULL,
+                coordinates vector3 NOT NULL,
+                last_updated TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+            );""".trimIndent()
+
+            Database.connection.prepareStatement(query).use { statement: PreparedStatement ->
+                statement.executeUpdate()
+            }
     }
 
     fun syncInventoryData(player: ServerPlayerEntity) {
