@@ -60,7 +60,7 @@ jobs:
       - name: Publish JAR Artifact
         uses: actions/upload-artifact@v4
         with:
-          name: PlayerPersistance
+          name: PlayerPersistence
           path: build/libs/*.jar
 
   release:
@@ -90,6 +90,6 @@ jobs:
         with:
           token: '${{ secrets.MODRINTH_TOKEN }}'
           project: AFthCZHM
-          file: 'build/libs/PlayerPersistance-${{ github.event.release.tag_name }}.jar'
+          file: 'PlayerPersistence-${{ github.event.release.tag_name }}.jar'
           changelog: '${{ github.event.release.body }}'
           loaders: 'fabric, quilt'
