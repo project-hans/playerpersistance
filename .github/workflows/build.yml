@@ -54,6 +54,6 @@ jobs:
       - name: Publish JAR Artifact
         uses: actions/upload-artifact@v4
         with:
-          name: hans-mod
+          name: playerpersistance
           path: build/libs/*.jar
 
