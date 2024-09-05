@@ -44,7 +44,7 @@ jobs:
       - name: Read Version from gradle.properties
         id: get_version
         run: |
-          VERSION=$(grep "^version" gradle.properties | cut -d'=' -f2 | tr -d ' ')
+          VERSION=$(grep "^mod_version" gradle.properties | cut -d'=' -f2 | tr -d ' ')
           echo "VERSION=$VERSION" >> $GITHUB_ENV
 
       - name: Build with Gradle
