@@ -1,5 +1,4 @@
 name: Build and Push Lobby Image
-
 on:
   push:
     branches: [ "main" ]
@@ -49,7 +48,7 @@ jobs:
         run: rm build/libs/*sources.jar
 
       - name: Rename artifact
-        run: cp build/libs/*.jar build/libs/PlayerPersistence-${{ github.run_number }}.jar
+        run: cp build/libs/*.jar build/libs/PlayerPersistence-0.0.2.${{ github.run_number }}.jar
 
       - name: Publish JAR Artifact
         uses: actions/upload-artifact@v4
@@ -62,29 +61,29 @@ jobs:
         id: create_release
         uses: actions/create-release@v1
         with:
-          tag_name: v${{ github.run_number }}
-          release_name: "Release ${{ github.run_number }}"
-          body: "Auto-generated release for build ${{ github.run_number }}"
+          tag_name: v0.0.2.${{ github.run_number }}
+          release_name: "Release 0.0.2.${{ github.run_number }}"
+          body: "Auto-generated release for build 0.0.2.${{ github.run_number }}"
           draft: false
           prerelease: false
         env:
-          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       # Upload the .jar to GitHub release assets
       - name: Upload to release
         uses: actions/upload-release-asset@v1
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: build/libs/PlayerPersistence-${{ github.run_number }}.jar
-          asset_name: playerpersistence-${{ github.run_number }}.jar
+          asset_path: build/libs/PlayerPersistence-0.0.2.${{ github.run_number }}.jar
+          asset_name: playerpersistence-0.0.2.${{ github.run_number }}.jar
           asset_content_type: application/java-archive
 
       # Upload the .jar to Modrinth
-      - name: Upload to Modrinth
-        uses: cloudnode-pro/modrinth-publish@1.0.0
-        with:
-          token: '${{ secrets.MODRINTH_TOKEN }}' # You need to create this secret in your repository settings
-          project: AFthCZHM # Replace with your project id/slug
-          file: 'build/libs/PlayerPersistence-${{ github.run_number }}.jar' # Make sure that this matches the file name of your .jar
-          changelog: "Auto-generated release for build ${{ github.run_number }}"
-          loaders: 'paper, spigot' # A list of your supported loaders
+      #- name: Upload to Modrinth
+      #  uses: cloudnode-pro/modrinth-publish@1.0.0
+      #  with:
+      #    token: '${{ secrets.MODRINTH_TOKEN }}' # You need to create this secret in your repository settings
+      #    project: AFthCZHM # Replace with your project id/slug
+      #    file: 'build/libs/PlayerPersistence-${{ github.run_number }}.jar' # Make sure that this matches the file name of your .jar
+      #    changelog: "Auto-generated release for build ${{ github.run_number }}"
+      #    loaders: 'paper, spigot' # A list of your supported loaders
