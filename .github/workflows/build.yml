@@ -69,14 +69,16 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      # Upload the .jar to GitHub release assets
-      - name: Upload to release
+      - name: Upload the .jar to GitHub release assets
         uses: actions/upload-release-asset@v1
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
           asset_path: build/libs/PlayerPersistence-0.0.2.${{ github.run_number }}.jar
           asset_name: playerpersistence-0.0.2.${{ github.run_number }}.jar
           asset_content_type: application/java-archive
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
 
       # Upload the .jar to Modrinth
       #- name: Upload to Modrinth
