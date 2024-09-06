@@ -1,4 +1,5 @@
 package sh.bims.playerpersistence
+
 import com.google.gson.JsonArray
 import com.google.gson.JsonObject
 import com.google.gson.JsonParser
@@ -14,17 +15,17 @@ import java.util.*
 class PlayerPersistence : ModInitializer {
 
     override fun onInitialize() {
-            val node = Database.SERVER_NODE
-            val query = """
+        val node = Database.SERVER_NODE
+        val query = """
             CREATE TABLE IF NOT EXISTS player_inventories (
                 uuid UUID PRIMARY KEY,
-                inventory_data TEXT NOT NULL,
+                inventory_data JSONB NOT NULL,
                 last_updated TIMESTAMP DEFAULT CURRENT_TIMESTAMP
             );
 
             CREATE TABLE IF NOT EXISTS player_enderchests (
                 uuid UUID PRIMARY KEY,
-                chest_data TEXT NOT NULL,
+                chest_data JSONB NOT NULL,
                 last_updated TIMESTAMP DEFAULT CURRENT_TIMESTAMP
             );
 
@@ -45,9 +46,9 @@ class PlayerPersistence : ModInitializer {
                 last_updated TIMESTAMP DEFAULT CURRENT_TIMESTAMP
             );""".trimIndent()
 
-            Database.connection.prepareStatement(query).use { statement: PreparedStatement ->
-                statement.executeUpdate()
-            }
+        Database.connection.prepareStatement(query).use { statement: PreparedStatement ->
+            statement.executeUpdate()
+        }
     }
 
     fun syncInventoryData(player: ServerPlayerEntity) {
@@ -77,7 +78,7 @@ class PlayerPersistence : ModInitializer {
     fun writeInventory(uuid: UUID, inventoryData: String) {
         val invQuery = """
         INSERT INTO player_inventories (uuid, inventory_data, last_updated) 
-        VALUES (?, ?, NOW()) 
+        VALUES (?, ?::jsonb, NOW()) 
         ON CONFLICT (uuid) 
         DO UPDATE SET inventory_data = EXCLUDED.inventory_data, last_updated = NOW();
         """
@@ -91,7 +92,7 @@ class PlayerPersistence : ModInitializer {
     fun writeEnderChest(uuid: UUID, playerEnderChestData: String) {
         val enderChestQuery = """
         INSERT INTO player_enderchests (uuid, chest_data, last_updated) 
-        VALUES (?, ?, NOW()) 
+        VALUES (?, ?::jsonb, NOW()) 
         ON CONFLICT (uuid) 
         DO UPDATE SET chest_data = EXCLUDED.chest_data, last_updated = NOW();
         """
@@ -121,7 +122,6 @@ class PlayerPersistence : ModInitializer {
             serializeStack(itemStack, index + 150)?.let { invArray.add(it) }
         }
         return invArray.toString()
-
     }
 
     fun serializeEnderChest(player: ServerPlayerEntity): String {
@@ -130,7 +130,6 @@ class PlayerPersistence : ModInitializer {
             serializeStack(itemStack, index)?.let { enderChestArray.add(it) }
         }
         return enderChestArray.toString()
-
     }
 
     fun serializeStack(itemStack: ItemStack, index: Int): JsonObject? {
@@ -166,8 +165,6 @@ class PlayerPersistence : ModInitializer {
                 slot in 150..199 -> player.inventory.offHand[slot - 150] = itemStack  // Off-hand slot
             }
         }
-
-
     }
 
     fun deserializeEnderChest(player: ServerPlayerEntity, inventoryData: String) {
@@ -185,8 +182,6 @@ class PlayerPersistence : ModInitializer {
 
             player.enderChestInventory.setStack(slot, itemStack)
         }
-
-
     }
 
     fun writePlayerCoordinates(player: ServerPlayerEntity) {
@@ -248,4 +243,3 @@ class PlayerPersistence : ModInitializer {
         }
     }
 }
-
