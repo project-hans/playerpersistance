@@ -1,4 +1,4 @@
-name: Build and Push and Release to Modrinth
+name: Build and Push and Release to Modrinth dev
 on:
   release:
     types: [created]
