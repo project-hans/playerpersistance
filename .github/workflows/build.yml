@@ -49,7 +49,7 @@ jobs:
         run: rm build/libs/*sources.jar
 
       - name: Rename artifact
-        run: cp build/libs/*.jar build/libs/PlayerPersistence-${{ env.VERSION }}.jar
+        run: cp build/libs/*.jar build/libs/playerpersistence-${{ env.VERSION }}.jar
 
       - name: Publish JAR Artifact
         uses: actions/upload-artifact@v4
@@ -74,7 +74,7 @@ jobs:
         uses: actions/upload-release-asset@v1
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: build/libs/PlayerPersistence-${{ env.VERSION }}.jar
+          asset_path: build/libs/playerpersistence-${{ env.VERSION }}.jar
           asset_name: playerpersistence-${{ env.VERSION }}.jar
           asset_content_type: application/java-archive
         env:
@@ -86,6 +86,6 @@ jobs:
         with:
           token: '${{ secrets.MODRINTH_TOKEN }}' # You need to create this secret in your repository settings
           project: AFthCZHM # Replace with your project id/slug
-          file: 'build/libs/PlayerPersistence-${{ env.VERSION }}.jar' # Make sure that this matches the file name of your .jar
+          file: 'build/libs/playerpersistence-${{ env.VERSION }}.jar' # Make sure that this matches the file name of your .jar
           changelog: "Auto-generated release for build v${{ env.VERSION }}"
           loaders: 'fabric, quilt' # A list of your supported loaders
