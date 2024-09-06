@@ -1,4 +1,5 @@
 name: Build and Push and Release to Modrinth
+
 on:
   release:
     types: [created]
