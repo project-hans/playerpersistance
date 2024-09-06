@@ -1,7 +1,7 @@
 name: Build and Push and Release to Modrinth
 on:
   release:
-    branches: [ "main" ]
+    types: [created]
   workflow_dispatch:
 
 jobs:
