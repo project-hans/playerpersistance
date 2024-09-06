@@ -51,7 +51,7 @@ dependencies {
     // Fabric API. This is technically optional, but you probably want it anyway.
     modImplementation("net.fabricmc.fabric-api:fabric-api:${project.property("fabric_version")}")
     // Database
-    include("org.postgresql:postgresql:42.7.4")?.let { implementation(it) }
+    implementation("org.postgresql:postgresql:${project.property("postgresql_version")}")?.let { include(it) }
 }
 
 tasks.processResources {
