@@ -57,9 +57,6 @@ jobs:
       - name: Remove sources artifact
         run: rm build/libs/*sources.jar
 
-      - name: Rename artifact
-        run: cp build/libs/*.jar build/libs/playerpersistence-${{ env.VERSION }}.jar
-
       - name: Publish JAR Artifact
         uses: actions/upload-artifact@v4
         with:
