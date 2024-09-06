@@ -1,4 +1,4 @@
-name: Build and Push to Modrinth and GitHub Release
+name: Build and Push to Modrinth
 
 on:
   release:
