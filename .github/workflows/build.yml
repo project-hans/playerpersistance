@@ -1,13 +1,7 @@
-name: Build and Push Lobby Image
+name: Build and Push and Release to Modrinth
 on:
-  push:
+  release:
     branches: [ "main" ]
-    paths:
-      - 'src/**' # Trigger only if something in /src/* changes
-  pull_request:
-    branches: [ "main" ]
-    paths:
-      - 'src/**' # Trigger only if something in /src/* changes
   workflow_dispatch:
 
 jobs:
